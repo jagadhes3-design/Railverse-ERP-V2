@@ -1,0 +1,77 @@
+/* Spreadsheet-inspired registers for Rail verse signalling works ERP */
+.heading{margin-bottom:12px}
+#list-staff.list,#list-projects.list{display:grid;grid-template-columns:1fr;gap:8px}
+#list-staff .card{display:grid;grid-template-columns:minmax(150px,1.3fr) minmax(110px,1fr) minmax(130px,1fr) auto auto auto;align-items:center;gap:8px 14px;padding:12px 14px;border-radius:9px;box-shadow:none;border-color:#dce5ef;border-left:4px solid #258b86}
+#list-staff .card b,#list-staff .card small{margin:0;min-width:0;overflow-wrap:anywhere}
+#list-staff .card small:nth-of-type(1){color:#51647b}
+#list-staff .card small:nth-of-type(2){color:#176b68;font-weight:700}
+#list-staff .card button{padding:8px 10px;border-radius:7px;background:#e8f2fb}
+#list-staff .card button.del{background:#fff0f0}
+#list-projects .rv-project-card{border-left:4px solid #1768ac}
+#list-projects .rv-project-actions{padding:0 14px 12px}
+#list-projects .rv-project-actions button{padding:7px 10px;border-radius:7px;background:#e8f2fb}
+#list-projects .rv-project-actions button.del{background:#fff0f0}
+.rv-search-label{display:block;margin:0 0 12px}
+.rv-search-label input{width:100%;background:#fff;border:1px solid #dce5ef}
+.rv-register-head{display:grid;grid-template-columns:minmax(150px,1.3fr) minmax(110px,1fr) minmax(130px,1fr) auto auto;gap:8px 14px;padding:8px 14px;color:#60738a;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px}
+@media(max-width:650px){
+ #list-staff .card{grid-template-columns:minmax(0,1fr) auto;gap:5px 10px;padding:12px}
+ #list-staff .card b{grid-column:1}
+ #list-staff .card small{grid-column:1}
+ #list-staff .card .rv-edit-record{grid-row:1;grid-column:2}
+ #list-staff .card button.del{grid-row:2;grid-column:2}
+ #list-staff .card [data-rv-open]{grid-row:3;grid-column:2}
+ #list-staff .card small:nth-of-type(2){grid-column:1}
+ .rv-register-head{display:none}
+}
+html[data-rv-theme="dark"] #list-staff .card,html[data-rv-theme="dark"] #list-projects .rv-project-card{background:#1c293b;border-color:#34445a}
+html[data-rv-theme="dark"] .rv-search-label input{background:#142033;color:#e7edf5;border-color:#46566c}
+
+/* Labour actions must never overlap on small screens */
+#list-staff .card .rv-edit-record{background:#e5f1ff;color:#145c9b;font-weight:800;border-radius:8px;padding:9px 12px}
+#list-staff .card [data-rv-open]{background:#eef2ff;color:#4b50a3;border-radius:8px;padding:9px 12px}
+#list-staff .card button.del{background:#fff0f0;color:#b42318;border-radius:8px;padding:9px 12px}
+.rv-cash-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:12px 0 22px}
+.rv-cash-summary .card{padding:13px;min-width:0}
+.rv-cash-summary .card b{display:block;font-size:18px;margin-top:6px;overflow-wrap:anywhere}
+.rv-cash-employee .rv-cash-balance-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.rv-cash-balance-grid>span{background:#f3f6fb;border-radius:9px;padding:9px}
+.rv-cash-balance-grid small{display:block;color:#718096;font-size:10px}
+.rv-cash-balance-grid b{display:block;font-size:14px;margin-top:3px}
+.rv-cash-actions,.rv-cash-row-actions{display:flex;gap:9px;flex-wrap:wrap}
+.rv-cash-row-actions button{border:0;border-radius:8px;padding:8px 12px;background:#e8f2fb;color:#1768ac;font-weight:750}
+.rv-cash-row-actions button.del{background:#fff0f0;color:#b42318}
+.rv-att-day-summary{grid-template-columns:repeat(6,minmax(0,1fr))}
+@media(max-width:650px){.rv-cash-summary{grid-template-columns:repeat(2,minmax(0,1fr))}.rv-cash-summary .card b{font-size:16px}.rv-att-day-summary{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:420px){#list-staff .card .rv-edit-record{grid-row:1;grid-column:2}#list-staff .card button.del{grid-row:2;grid-column:2}#list-staff .card [data-rv-open]{grid-row:3;grid-column:2}}
+
+/* Labour register actions visible outside overflow menus */
+#list-staff .rv-staff-row{grid-template-columns:52px minmax(0,1fr) auto;align-items:center;gap:10px;padding:12px 14px;min-height:82px}
+#list-staff .rv-staff-main{display:flex;flex-direction:column;gap:4px;min-width:0}
+#list-staff .rv-staff-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#list-staff .rv-staff-actions button{padding:8px 12px;border:0;border-radius:8px;background:#e8f2fb;color:#145c9b;font-weight:750}
+#list-staff .rv-staff-actions button.del{background:#fff0f0;color:#b42318}
+
+/* Three-dot labour actions, aligned with the mobile reference layout */
+#list-staff .rv-staff-menu{position:relative;justify-self:end;align-self:center}
+#list-staff .rv-staff-menu>summary{list-style:none;cursor:pointer;color:#50525e;font-size:25px;line-height:1;padding:6px;min-width:26px;text-align:center}
+#list-staff .rv-staff-menu>summary::-webkit-details-marker{display:none}
+#list-staff .rv-staff-menu>div{position:absolute;right:0;top:30px;z-index:40;min-width:120px;background:#fff;border:1px solid #e3e4ed;border-radius:12px;padding:6px;box-shadow:0 8px 24px #11112b24}
+#list-staff .rv-staff-menu>div button{display:block;width:100%;text-align:left;padding:10px 11px;border:0;border-radius:8px;background:transparent;color:#222;font-size:13px}
+#list-staff .rv-staff-menu>div button.del{color:#b42318;background:transparent}
+#list-projects .rv-project-actions button{min-height:40px;min-width:84px}
+@media(max-width:650px){
+ #list-staff .rv-staff-row{grid-template-columns:72px minmax(0,1fr) auto 28px;gap:10px;padding:15px 8px;min-height:104px}
+ #list-staff .rv-avatar{width:68px;height:68px;border:0;border-radius:50%;display:flex;align-items:center;justify-content:center;padding:0;font-size:28px;font-weight:800}
+ #list-staff .rv-staff-main{grid-column:auto;grid-row:auto;display:flex;flex-direction:column;gap:3px;min-width:0}
+ #list-staff .rv-staff-main .rv-employee-name{font-size:17px;white-space:normal;text-align:left}
+ #list-staff .rv-staff-main small{display:none}
+ #list-staff .rv-pay-badge{white-space:nowrap;align-self:center;border-radius:14px;padding:12px 10px;font-size:13px;font-weight:800}
+ #list-staff .rv-staff-menu{grid-column:4;grid-row:1}
+ #list-staff .rv-staff-menu>div{top:28px}
+}
+@media(max-width:390px){
+ #list-staff .rv-staff-row{grid-template-columns:56px minmax(0,1fr) auto 24px;gap:7px;padding-left:4px;padding-right:4px}
+ #list-staff .rv-avatar{width:52px;height:52px;font-size:24px}
+ #list-staff .rv-pay-badge{font-size:11px;padding:10px 7px}
+}
