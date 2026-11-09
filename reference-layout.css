@@ -1,0 +1,154 @@
+/* Reference-style mobile UI for Rail Verse Signalling Works */
+:root{--rv-ink:#100f29;--rv-paper:#f8f8fd;--rv-line:#e3e4ed;--rv-muted:#535867}
+@media(max-width:650px){
+ html,body{background:var(--rv-paper);color:#1e1e29}
+ body>header,#tabs{display:none!important}
+ #rv-mobile-header{display:block;position:sticky;top:0;z-index:30;background:var(--rv-ink);color:#fff;padding:14px 22px 16px;min-height:86px}
+ .rv-mobile-title-row{display:flex;align-items:center;gap:12px;min-height:52px}
+ #rv-mobile-title{font-size:24px;line-height:1.15;font-weight:800;color:#f7f7ff;margin:0;flex:1;letter-spacing:-.5px}
+ #rv-mobile-search,#rv-mobile-logout,#rv-mobile-back{border:0;background:transparent;color:#fff;font-size:29px;line-height:1;padding:5px 3px;min-width:34px}
+ #rv-mobile-header #rv-mobile-search-input{display:block;width:100%;margin:10px 0 0;padding:12px 16px;border:0;border-radius:14px;background:#333247;color:#fff;font-size:15px}
+ #rv-mobile-header #rv-mobile-search-input[hidden]{display:none}
+ .rv-auth-pending #rv-mobile-header,.rv-auth-pending #rv-bottom,.rv-auth-pending #rv-fab{display:none!important}
+ main{max-width:none;margin:0;padding:0 0 112px}
+ .view{min-height:calc(100svh - 170px)}
+ .view h1{font-size:24px}
+ #rv-bottom{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;padding:7px 7px max(7px,env(safe-area-inset-bottom));background:var(--rv-paper);border-top:1px solid var(--rv-line);box-shadow:none;min-height:82px}
+ #rv-bottom button{min-height:62px;border-radius:17px;padding:7px 2px;color:#4e515b;font-size:10px;font-weight:600;gap:4px}
+ #rv-bottom button.active{background:#dfe4ff;color:#10102b;font-weight:800}
+ #rv-bottom svg{width:24px;height:24px}
+ #rv-fab{display:flex;position:fixed;right:22px;bottom:105px;z-index:22;width:76px;height:76px;border:0;border-radius:26px;background:var(--rv-ink);color:#fff;font-size:40px;line-height:1;align-items:center;justify-content:center;box-shadow:0 10px 20px #11112b2b}
+ #rv-fab[hidden]{display:none}
+ #staff.view.show,#projects.view.show{padding:0 0 28px}
+ #staff .heading,#projects .heading{display:none}
+ .rv-search-label{display:block;margin:0;padding:0 20px 18px;background:var(--rv-ink)}
+ .rv-search-label input{width:100%;margin:0;border:0;border-radius:15px;background:#333247;color:#fff;padding:14px 16px;font-size:15px}
+ .rv-search-label input::placeholder{color:#b5b5c4}
+ #list-staff.list,#list-projects.list{display:grid;grid-template-columns:1fr;gap:0;background:var(--rv-paper);padding:0 18px}
+ #list-staff .rv-staff-row{position:relative;display:grid;grid-template-columns:72px minmax(0,1fr) auto 28px;align-items:center;gap:10px;padding:17px 8px;border:0;border-bottom:1px solid var(--rv-line);border-radius:0;box-shadow:none;background:transparent;min-height:116px}
+ #list-staff .rv-avatar{width:68px;height:68px;border:0;border-radius:50%;background:hsl(var(--rv-hue,210) 68% 94%);color:hsl(var(--rv-hue,210) 58% 36%);font-size:28px;font-weight:800;padding:0;display:flex;align-items:center;justify-content:center}
+ #list-staff .rv-staff-main{min-width:0}
+ #list-staff .rv-staff-main .rv-employee-name{color:#1d1d27;font-size:17px;font-weight:750;white-space:normal;line-height:1.25;margin:0 0 4px}
+ #list-staff .rv-staff-main small{font-size:11px;color:#717482}
+ #list-staff .rv-pay-badge{white-space:nowrap;background:hsl(var(--rv-hue,210) 68% 95%);color:hsl(var(--rv-hue,210) 65% 34%);border-radius:14px;padding:13px 11px;font-size:13px;font-weight:800}
+ #list-staff .rv-staff-menu{position:relative}
+ #list-staff .rv-staff-menu>summary{list-style:none;cursor:pointer;color:#50525e;font-size:25px;line-height:1;padding:6px}
+ #list-staff .rv-staff-menu>summary::-webkit-details-marker{display:none}
+ #list-staff .rv-staff-menu>div{position:absolute;right:0;top:28px;z-index:9;min-width:110px;background:#fff;border:1px solid var(--rv-line);border-radius:12px;padding:6px;box-shadow:0 8px 24px #11112b1f}
+ #list-staff .rv-staff-menu>div button{display:block;width:100%;text-align:left;padding:9px;background:transparent;color:#222;border-radius:7px}
+ #list-staff .rv-staff-menu>div button.del{color:#b42318}
+ #attendance.view.show{padding:0 14px 22px}
+ .rv-date-bar{display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:8px;padding:14px 0 12px}
+ .rv-date-bar button{border:0;background:transparent;color:var(--rv-ink);font-size:29px;line-height:1;min-height:42px}
+ #rv-date-open{font-size:17px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px}
+ #rv-date-open span{font-size:19px}
+ .rv-date-bar input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+ .rv-att-day-summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:2px 0 18px}
+ .rv-att-day-summary>div{border-radius:14px;padding:10px 3px;text-align:center;min-width:0;box-shadow:none}
+ .rv-att-day-summary b{display:block;font-size:17px;line-height:1.2;font-weight:850;overflow-wrap:anywhere}
+ .rv-att-day-summary small{display:block;font-size:11px;margin-top:3px}
+ .rv-summary-p{background:#d8f5e0;color:#188946}
+ .rv-summary-a{background:#ffdddd;color:#c32222}
+ .rv-summary-off{background:#e5e3fb;color:#65647e}
+ .rv-summary-ot{background:#ffe0c6;color:#98500a}
+ .rv-summary-pay{background:#dce5ff;color:#203c72}
+ .rv-site-list{display:grid;gap:0}
+ .rv-site-group{border:0;border-radius:0;border-bottom:9px solid #eeeef5;background:transparent;box-shadow:none;overflow:visible}
+ .rv-site-group>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:15px 8px;cursor:pointer}
+ .rv-site-group>summary:before{content:"";width:13px;height:13px;border-radius:50%;flex:0 0 13px;background:hsl(var(--rv-hue,210) 67% 42%);margin-right:2px}
+ .rv-site-group>summary>span:first-child{display:flex;align-items:center;justify-content:space-between;gap:10px;flex:1;min-width:0}
+ .rv-site-group>summary b{font-size:17px;font-weight:800;color:#20202a;white-space:nowrap}
+ .rv-site-group>summary small{font-size:14px;color:#565a67;white-space:nowrap;margin-left:auto}
+ .rv-site-group>summary .rv-project-stats{display:none}
+ .rv-site-arrow{font-size:19px;color:#525662}
+ .rv-site-members{padding:0 2px 0 4px;display:block}
+ .rv-employee{display:grid;grid-template-columns:62px minmax(65px,1fr) auto;align-items:center;gap:9px;border:0;border-radius:0;border-bottom:1px solid var(--rv-line);background:transparent;padding:13px 0;min-height:98px}
+ .rv-att-avatar{width:58px;height:58px;border:0;border-radius:50%;background:hsl(var(--rv-hue,210) 72% 94%);color:hsl(var(--rv-hue,210) 60% 38%);font-size:25px;font-weight:850}
+ .rv-employee-main{min-width:0;display:flex;flex-direction:column;gap:3px}
+ .rv-att-name{border:0;background:transparent;padding:0;text-align:left;color:#20202a;font-size:16px;font-weight:780;white-space:normal}
+ .rv-employee-main small{font-size:12px;color:#535865;line-height:1.25}
+ .rv-quick-status{display:flex;gap:5px;flex-wrap:nowrap;margin:0}
+ .rv-quick-status button{min-width:39px;width:39px;height:48px;padding:5px 2px;border:1.5px solid #c8cad5;border-radius:13px;background:transparent;color:#545765;font-size:11px;font-weight:650}
+ .rv-quick-status button.active{outline:0;background:#d6f4df;border-color:#a7ddba;color:#188344}
+ .rv-quick-status .rv-mark-a.active{background:#ffdddd;border-color:#f0b7b7;color:#b42318}
+ .rv-quick-status .rv-mark-off.active{background:#e5e3fb;border-color:#c9c4f2;color:#535078}
+ .rv-quick-status .rv-mark-half.active{background:#fff0d9;border-color:#f1d29a;color:#9a5b00}
+ .rv-quick-status .rv-mark-leave.active{background:#eeeaff;border-color:#cbc1ff;color:#5a48a8}
+ .rv-manual-attendance{margin:14px 0;padding:12px;background:#fff;border:1px solid var(--rv-line);border-radius:12px}
+ .rv-manual-attendance>summary{font-weight:750;color:#3e4352;cursor:pointer}
+ .rv-manual-attendance form{margin-top:12px;box-shadow:none}
+ .rv-manual-attendance[open]{padding:14px}
+ #projects .rv-project-card{border:0;border-bottom:1px solid var(--rv-line);border-radius:0;box-shadow:none;background:transparent;padding:0}
+ #projects .rv-project-details>summary{padding:16px 8px}
+ #projects .rv-project-actions{padding:0 8px 14px}
+ .rv-profile-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;background:#fff;border:1px solid #e2e3ee;border-radius:20px;padding:14px 4px;margin:18px 0}
+ .rv-profile-stat{text-align:center;padding:8px 3px;border-right:1px solid #d5d6df;min-width:0}
+ .rv-profile-stat:last-child{border-right:0}
+ .rv-profile-stat b{display:block;font-size:20px;line-height:1.2}
+ .rv-profile-stat small{display:block;font-size:11px;margin-top:5px;color:#646977}
+ .rv-prof-present b,.rv-prof-present small{color:#218849}
+ .rv-prof-absent b,.rv-prof-absent small{color:#bf2929}
+ .rv-prof-ot b,.rv-prof-ot small{color:#9b5b09}
+ .rv-prof-advance b,.rv-prof-advance small{color:#897314}
+ .rv-profile-site{display:inline-flex;align-items:center;gap:8px;background:#e7ebff;border-radius:12px;padding:8px 12px;color:#252a43;font-size:14px}
+ .rv-profile-site select{width:auto;min-width:150px;border:0;background:transparent;color:#252a43;font-size:14px;padding:6px}
+ .rv-profile-mode{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:#ececf4;border-radius:17px;margin:16px 0 20px;padding:3px}
+ .rv-profile-mode button{border:0;border-radius:15px;background:transparent;color:#515564;padding:12px 4px;font-size:14px}
+ .rv-profile-mode button.active{background:var(--rv-ink);color:#fff;font-weight:800}
+ .rv-profile-period{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:4px 3px 14px}
+ .rv-profile-period button{border:0;background:transparent;color:var(--rv-ink);font-size:29px}
+ .rv-profile-period strong{font-size:18px}
+ .rv-profile-report-link{display:flex;justify-content:flex-end;margin:0 0 14px}
+ .rv-profile-report-link button{border:0;background:transparent;color:var(--rv-ink);font-weight:750;padding:10px}
+ .rv-profile-days{display:grid;gap:0;border-top:1px solid var(--rv-line)}
+ .rv-profile-day-row{display:grid;grid-template-columns:58px minmax(0,1fr) 58px;align-items:center;gap:6px;padding:13px 0;border-bottom:1px solid var(--rv-line);min-height:88px}
+ .rv-profile-date{text-align:center}
+ .rv-profile-date b{display:block;font-size:18px}
+ .rv-profile-date small{font-size:12px;color:#525866}
+ .rv-profile-day-actions{display:flex;align-items:center;gap:5px;min-width:0;flex-wrap:wrap}
+ .rv-profile-mark{min-width:43px;height:48px;padding:5px 8px;border:1.5px solid #c7c9d4;border-radius:13px;background:transparent;color:#535866;font-size:12px;font-weight:650}
+ .rv-profile-mark.active{background:#d8f5e0;border-color:#addfbb;color:#1d8846}
+ .rv-profile-absent.active{background:#ffdddd;border-color:#efb7b7;color:#b42318}
+ .rv-profile-overtime.active{background:#ffe0c6;border-color:#efc39f;color:#8b4d0b}
+ .rv-profile-off.active{background:#e5e3fb;border-color:#cbc8ec;color:#575579}
+ .rv-profile-advance{border:1.5px solid #c8cad5;border-radius:12px;background:transparent;color:#555967;padding:10px 8px;font-size:12px}
+ .rv-profile-advance-value{grid-column:3;text-align:center;color:#8a6413;font-size:11px}
+ .rv-report-review-list{display:grid;gap:8px}
+ .rv-report-review-list article{padding:9px;border-bottom:1px solid var(--rv-line)}
+ .rv-report-review-list small{display:block;color:#606573;margin-top:4px}
+ #rv-profile{padding:0 18px 35px}
+ #rv-profile .panel{box-shadow:none}
+}
+@media(max-width:390px){
+ .rv-employee{grid-template-columns:52px minmax(54px,1fr) auto;gap:6px}
+ .rv-att-avatar{width:48px;height:48px}
+ .rv-quick-status{gap:3px}
+ .rv-quick-status button{min-width:34px;width:34px;height:44px;font-size:10px}
+ .rv-profile-day-row{grid-template-columns:45px minmax(0,1fr) 48px;gap:3px}
+ .rv-profile-mark{min-width:37px;height:44px;padding:4px 5px}
+ .rv-profile-advance{padding:8px 5px}
+}
+@media(min-width:651px){
+ #rv-mobile-header,#rv-fab{display:none!important}
+}
+
+@media(max-width:650px){
+ body.rv-profile-open #rv-bottom{grid-template-columns:repeat(3,minmax(0,1fr))}
+ body.rv-profile-open #rv-bottom [data-rv-tab="projects"],body.rv-profile-open #rv-bottom [data-rv-extra="settings"]{display:none}
+ body.rv-profile-open #rv-bottom [data-rv-tab="staff"]{display:flex}
+}
+
+@media(max-width:650px){
+ .rv-mobile-title-row{gap:9px;min-height:52px}
+ .rv-mobile-logo{display:block;width:46px;height:46px;flex:0 0 46px;object-fit:contain;background:#fff;border:1px solid #d8e4f1;border-radius:50%;padding:2px}
+ #rv-mobile-title{font-size:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+ #list-staff .rv-staff-row{grid-template-columns:72px minmax(0,1fr) auto 28px;gap:10px;padding:15px 8px;min-height:104px}
+ #list-staff .rv-avatar{width:68px;height:68px;font-size:28px}
+ #list-staff .rv-staff-main{grid-column:auto;grid-row:auto;display:flex;flex-direction:column;gap:3px;min-width:0}
+ #list-staff .rv-staff-main .rv-employee-name{font-size:17px}
+ #list-staff .rv-staff-main small{display:none}
+ #list-staff .rv-pay-badge{white-space:nowrap;align-self:center;border-radius:14px;padding:12px 10px;font-size:13px;font-weight:800}
+ #list-staff .rv-staff-menu{grid-column:4;grid-row:1}
+ #list-staff .rv-staff-menu>summary{min-width:26px;text-align:center}
+ #list-staff .rv-staff-menu>div{top:28px}
+}
