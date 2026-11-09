@@ -1,0 +1,88 @@
+name: Build Railverse Android APK
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'styles.css'
+      - 'app.js'
+      - 'auth.js'
+      - 'supabase-config.js'
+      - 'enhancements.js'
+      - 'register-layout.css'
+      - 'reference-layout.css'
+      - 'register-layout.js'
+      - 'sw.js'
+      - 'assets/**'
+      - 'supabase/**'
+      - 'package.json'
+      - 'capacitor.config.ts'
+      - 'scripts/**'
+      - '.github/workflows/android-apk.yml'
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - run: npm install -D typescript
+      - run: npm run build
+      - run: npx cap add android
+      - run: npx cap sync android
+      - name: Apply official RVS launcher icon
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y librsvg2-bin imagemagick
+          mkdir -p android/app/src/main/res/mipmap-anydpi-v26 android/app/src/main/res/drawable
+          for spec in mdpi:48 hdpi:72 xhdpi:96 xxhdpi:144 xxxhdpi:192; do
+            density="${spec%%:*}"
+            size="${spec##*:}"
+            mkdir -p "android/app/src/main/res/mipmap-${density}"
+            rsvg-convert -w "${size}" -h "${size}" assets/railverse-logo.svg > "android/app/src/main/res/mipmap-${density}/ic_launcher.png"
+            cp "android/app/src/main/res/mipmap-${density}/ic_launcher.png" "android/app/src/main/res/mipmap-${density}/ic_launcher_round.png"
+          done
+          rsvg-convert -w 288 -h 288 assets/railverse-logo.svg > /tmp/rvs-logo.png
+          convert -size 432x432 xc:none /tmp/rvs-logo.png -gravity center -composite android/app/src/main/res/drawable/ic_launcher_foreground.png
+          for icon in ic_launcher ic_launcher_round; do
+            cat > "android/app/src/main/res/mipmap-anydpi-v26/${icon}.xml" <<'EOF'
+          <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+            <background android:drawable="@android:color/white"/>
+            <foreground android:drawable="@drawable/ic_launcher_foreground"/>
+          </adaptive-icon>
+          EOF
+          done
+      - name: Configure RVS launcher and home-screen shortcut
+        run: python3 scripts/configure-android-launcher.py
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Build debug APK
+        working-directory: android
+        run: ./gradlew assembleDebug
+      - name: Verify APK package, launcher and RVS icon
+        working-directory: android
+        run: |
+          APK=app/build/outputs/apk/debug/app-debug.apk
+          test -s "$APK"
+          AAPT="$(find "$ANDROID_HOME/build-tools" -type f -name aapt | sort | tail -n 1)"
+          test -n "$AAPT"
+          "$AAPT" dump badging "$APK" > /tmp/rvs-apk-badging.txt
+          grep -q "package: name='com.railverse.signallingworks'" /tmp/rvs-apk-badging.txt
+          grep -q "application-label:'RVS ERP'" /tmp/rvs-apk-badging.txt
+          grep -q "launchable-activity:" /tmp/rvs-apk-badging.txt
+          unzip -l "$APK" | grep -q 'ic_launcher'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: railverse-android-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 30
+
+# Manual rebuild requested: rebuild the current main-branch ERP source for RVS ERP release verification.
