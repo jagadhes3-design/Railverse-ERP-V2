@@ -1,0 +1,64 @@
+name: Railverse ERP checks
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check JavaScript syntax
+        run: |
+          node --check app.js
+          node --check auth.js
+          node --check enhancements.js
+          node --check balance-utils.js
+          node tests/balance.test.js
+          node --check register-layout.js
+          node --check sw.js
+          node --check scripts/prepare-web.js
+          python3 -m py_compile scripts/configure-android-launcher.py
+      - name: Verify secure cloud schema and attendance features
+        run: |
+          test -f register-layout.css
+          test -f reference-layout.css
+          grep -q "register-layout.css" scripts/prepare-web.js
+          grep -q "reference-layout.css" scripts/prepare-web.js
+          grep -q "register-layout.js" scripts/prepare-web.js
+          grep -q "register-layout.css" index.html
+          test -f supabase/schema.sql
+          grep -q "enable row level security" supabase/schema.sql
+          grep -q "owner_id = auth.uid()" supabase/schema.sql
+          grep -q "rv_records" app.js
+          grep -q "data-quick-att" app.js
+          grep -q "attQuickDate" index.html
+          grep -q "rv-staff-menu" app.js
+          grep -q "_rvRecordId" app.js
+          grep -q "data-edit" app.js
+          grep -q "data-del" app.js
+          grep -q "rv-edit-record" app.js
+          grep -q "data-quick-att" app.js
+          grep -q "rv-cash-employee-balances" enhancements.js
+          grep -q "data-cash-edit" enhancements.js
+          grep -q "data-cash-delete" enhancements.js
+          grep -q "railverse-logo.svg" .github/workflows/android-apk.yml
+          grep -q "configure-android-launcher.py" .github/workflows/android-apk.yml
+          grep -q "requestPinShortcut" scripts/configure-android-launcher.py
+          grep -q "MAIN/LAUNCHER" scripts/configure-android-launcher.py
+          node -e "const fs=require('fs');const s=fs.readFileSync('.github/workflows/android-apk.yml','utf8');if(s.indexOf('npx cap sync android')>s.indexOf('Apply official RVS launcher icon'))process.exit(1)"
+      - name: Build web assets and verify all required files
+        run: |
+          npm install
+          npm run build
+          test -f www/index.html
+          test -f www/register-layout.css
+          test -f www/reference-layout.css
+          test -f www/register-layout.js
+          test -f www/balance-utils.js
+          test -f www/assets/railverse-logo.svg
